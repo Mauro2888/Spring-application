@@ -1,0 +1,225 @@
+<div class="container">
+
+	<div class="alert alert-success" role="alert" ng-if="notification.success">{{ notification.message }}</div>
+	<div class="alert alert-error" role="alert" ng-if="notification.error">{{ notification.message }}</div>
+
+	<button class="btn btn-primary" ng-click="frmToggle()">Aggiungi Progetto</button>
+	<br>
+
+	<form class="form-horizontal" id="blogForm" ng-submit="pushDataP(frm)" hidden>
+		<div class="form-group">
+			<label for="name_project" class="col-sm-2 control-label">Nome</label>
+			<div class="col-sm-10">
+				<input type="text" ng-model="frm.name_project" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="start_project" class="col-sm-2 control-label">Inizio</label>
+			<div class="col-sm-10">
+
+
+				<div class="input-group date">
+					<input type="text" class="form-control" ng-model="frm.start_project">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-th"></i>
+					</span>
+
+
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="deadline" class="col-sm-2 control-label">Termine</label>
+			<div class="col-sm-10">
+				<input type="text" ng-model="frm.deadline" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="status" class="col-sm-2 control-label">Stato</label>
+			<div class="col-sm-10">
+				<select class="form-control" ng-model="frm.status" rows="8" class="form-control">
+					<option value="Evaluation">Evaluation</option>
+					<option value="Design">Design</option>
+					<option value="Development">Development</option>
+					<option value="Delivery">Delivery</option>
+					<option value="Closing">Closing</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="nsenior" class="col-sm-2 control-label">Risorse Senior</label>
+			<div class="col-sm-10">
+				<input type="text" ng-model="frm.nsenior" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="njunior" class="col-sm-2 control-label">Risorse Junior</label>
+			<div class="col-sm-10">
+				<input type="text" ng-model="frm.njunior" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" value="submit" class="btn btn-primary">Aggiungi Progetto</button>
+			</div>
+		</div>
+	</form>
+
+	<br>
+	<input type="search" ng-model="query.name_project" placeholder="Cerca Progetto" class="form-control">
+	<br>
+
+
+	<table class="table table-striped" >
+		<tr>
+			<!-- colonna vuota per l'icona-->
+			<th></th>
+			<th>Nome</th>
+			<th>Inizio</th>
+			<th>Scadenza</th>
+			<th>Stato</th>
+			<th style="text-align:center;">Senior</th>
+			<th style="text-align:center;">Junior</th>
+			<th style="text-align:center;">Risorse</th>
+			<th style="width: 100px;">Rimuovi</th>
+		</tr>
+		<!-- prova uno due-->
+
+		<tbody ng-repeat="el in project track by el.id">
+			<td><a href="#/progetto/?id={{el.id}}"
+				<button class="btn btn-default" style="border-width:0px;">
+					<span class="glyphicon glyphicon-th-list"></span>
+				</button>
+			</a>
+		</td>
+			<td>{{ el.name_project }}</td>
+			<td>{{ el.start_project }}</td>
+			<td>{{ el.deadline }}</td>
+			<td>{{ el.status}}</td>
+			<td style="text-align:center;">{{ el.nsenior}}</td>
+			<td style="text-align:center;">{{ el.njunior }}</td>
+			<td>
+				<center>
+					<a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index]">
+						<span class="glyphicon glyphicon-user" ng-if="!toggle[$index]"></span>
+						<span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
+					</a>
+					<center>
+					</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-warning" ng-click="editData(el)"><span class="glyphicon glyphicon-pencil"></span></button>
+							<button class="btn btn-danger" ng-click="removeDataP(el.id)"><span class="glyphicon glyphicon-remove"></span></button>
+						</div>
+					</td>
+					<tr ng-if="toggle[$index]">
+						<td colspan="9">
+							<!-- risorse a scomparsa -->
+						<div class="modal-body">
+							<form class="form-horizontal" id="blogForm1">
+
+								<table class="table table-striped">
+									<tr>
+										<!--vuoto -->
+										<th></th>
+										<th>Cognome</th>
+										<th>Nome</th>
+										<th>Tipo</th>
+										<th>Progetto</th>
+										<th >Data Assunzione</th>
+										<th>Assegnazione</th>
+									</tr>
+									<tr ng-repeat="el1 in resource | orderBy:'type'">
+										<td></td>
+										<td>{{ el1.surname }}</td>
+										<td>{{ el1.name }}</td>
+										<td>{{ el1.type}}</td>
+										<td>
+										<div ng-repeat="el in project">
+											<p ng-show="el1.assigned == el.id">{{el.name_project}}</p>
+										</div>
+											<p ng-show="el1.assigned == 0">Non assegnato</p>
+										</td>
+										<td>{{ el1.hire}}</td>
+										<!--		ICONE PER L'ASSEGNAZIONE |	Più			glyphicon glyphicon-plus-sign |	Meno		glyphicon glyphicon-minus-sign		-->
+										<td>
+											<button name="Aggiungi" type="button" ng-click="assignR(el1.id,el.id)" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off">
+												<span class="glyphicon glyphicon-plus-sign"></span></button>
+											</td>
+										</tr>
+									</div>
+								</form>
+
+
+							</tr>
+						</table>
+					</tbody>
+				</td>
+
+
+				<!-- Button trigger modal -->
+				<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modalLabel">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="edit-modalLabel">Edit Progetto ( {{ editBlogData.name_project }} )</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" id="blogForm">
+									<div class="form-group">
+										<label for="name_project" class="col-sm-2 control-label">Nome progetto</label>
+										<div class="col-sm-10">
+											<input type="text" ng-model="editBlogData.name_project" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="start_project" class="col-sm-2 control-label">Inizio</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" ng-model="editBlogData.start_project" rows="8"></input>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="deadline" class="col-sm-2 control-label">Termine</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" ng-model="editBlogData.deadline" rows="8"></input>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="status" class="col-sm-2 control-label">Stato</label>
+										<div class="col-sm-10">
+											<select class="form-control" ng-model="editBlogData.status" rows="8">
+												<option value="Evaluation">Evaluation</option>
+												<option value="Design">Design</option>
+												<option value="Development">Development</option>
+												<option value="Delivery">Delivery</option>
+												<option value="Closing">Closing</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="nsenior" class="col-sm-2 control-label">Risorse Senior</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" ng-model="editBlogData.nsenior" rows="8"></input>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="njunior" class="col-sm-2 control-label">Risorse Junior</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" ng-model="editBlogData.njunior" rows="8"></input>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+								<button type="button" class="btn btn-primary" ng-click="updateDataP(editBlogData)">Salva</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!-- - - - - - - - - - - finestra assegnazione risorsa a progetto - - - - - - - - - - - - -->

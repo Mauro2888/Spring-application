@@ -1,0 +1,131 @@
+<div class="container">
+
+	<div class="alert alert-success" role="alert" ng-if="notification.success">{{ notification.message }}</div>
+	<div class="alert alert-error" role="alert" ng-if="notification.error">{{ notification.message }}</div>
+
+	<button class="btn btn-primary" ng-click="frmToggle()">Aggiungi Risorsa</button>
+	<br>
+
+	<form class="form-horizontal" id="blogForm" ng-submit="pushDataR(frm)" hidden>
+		<div class="form-group">
+			<label for="surname" class="col-sm-2 control-label">Cognome</label>
+			<div class="col-sm-10">
+				<input type="text" ng-model="frm.surname" class="form-control">
+			</div>
+		</div>
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Nome</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="frm.name" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+			<label for="type" class="col-sm-2 control-label">Tipologia</label>
+			<div class="col-sm-10">
+        <select class="form-control" ng-model="frm.type" rows="8" class="form-control">
+					<option value="junior">Junior</option>
+					<option value="senior">Senior</option>
+
+				</select>
+			</div>
+		</div>
+
+    <div class="form-group">
+      <label for="hire" class="col-sm-2 control-label">Data assunzione</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="frm.hire" class="form-control">
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" value="submit" class="btn btn-primary">Inserisci Risorsa</button>
+			</div>
+		</div>
+	</form>
+
+	<br>
+	<input type="search" ng-model="query.surname" placeholder="Cerca per cognome" class="form-control">
+	<br>
+
+
+
+
+
+
+	<table class="table table-striped">
+	 	<tr>
+	 		<th>Cognome</th><th>Nome</th><th>Tipo</th> <th>Data Assunzione</th><th style="width: 100px;">Rimuovi</th>
+	 	</tr>
+	 	<tr ng-repeat="el in resource | filter: query track by $index">
+	 		<td>{{ el.surname }}</td><td>{{ el.name }}</td><td>{{ el.type}}</td><td>{{ el.hire}}</td>
+	 		<td>
+	 			<div class="btn-group">
+	 				<button class="btn btn-warning" ng-click="editData(el)"><span class="glyphicon glyphicon-pencil"></span></button>
+	 				<button class="btn btn-danger" ng-click="removeDataR(el.id)"><span class="glyphicon glyphicon-remove"></span></button>
+	 			</div>
+	 		</td>
+	 	</tr>
+	</table>
+	<!-- Button trigger modal -->
+
+	<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modalLabel">
+	    <div class="modal-dialog modal-lg" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title" id="edit-modalLabel">Edit Blog ( {{ editBlogData.surname  }} {{ editBlogData.name  }} )</h4>
+	            </div>
+	            <div class="modal-body">
+	             	<form class="form-horizontal" id="blogForm">
+
+            <div class="form-group">
+							<label for="surname" class="col-sm-2 control-label">Cognome</label>
+							<div class="col-sm-10">
+								<input type="text" ng-model="editBlogData.surname" class="form-control">
+							</div>
+						</div>
+
+            <div class="form-group">
+              <label for="name" class="col-sm-2 control-label">Nome</label>
+              <div class="col-sm-10">
+                <input type="text" ng-model="editBlogData.name" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="title" class="col-sm-2 control-label">Tipologia</label>
+              <div class="col-sm-10">
+                  <select class="form-control" ng-model="editBlogData.type" rows="8" class="form-control">
+                    <option value="junior">Junior</option>
+                    <option value="senior">Senior</option>
+
+                  </select>
+                </div>
+
+
+              </div>
+
+            <div class="form-group">
+              <label for="name" class="col-sm-2 control-label">Data assunzione</label>
+              <div class="col-sm-10">
+                <input type="text" ng-model="editBlogData.hire" class="form-control">
+              </div>
+            </div>
+
+
+
+					</form>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+	                <button type="button" class="btn btn-primary" ng-click="updateDataR(editBlogData)">Salva</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+</div>
