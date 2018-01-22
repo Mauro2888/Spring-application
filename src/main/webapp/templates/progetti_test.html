@@ -6,7 +6,7 @@
 	<button class="btn btn-primary" ng-click="frmToggle()">Aggiungi Progetto</button>
 	<br>
 
-	<form class="form-horizontal" id="blogForm" ng-submit="pushDataP(frm)" hidden>
+	<form class="form-horizontal" id="blogForm" ng-submit="pushDataP(frm)" hidden style="background-color:#F3F3F3;">
 		<div class="form-group">
 			<label for="name_project" class="col-sm-2 control-label">Nome</label>
 			<div class="col-sm-10">
@@ -61,7 +61,7 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" value="submit" class="btn btn-primary">Aggiungi Progetto</button>
+				<button type="submit" value="submit" class="btn btn-primary">Inserisci Progetto</button>
 			</div>
 		</div>
 	</form>
@@ -71,56 +71,59 @@
 	<br>
 
 
-	<table class="table table-striped" >
-		<tr>
+	<table class="table table-hover">
+		<thead>
+		<tr class="active">
 			<!-- colonna vuota per l'icona-->
 			<th></th>
 			<th>Nome</th>
 			<th>Inizio</th>
 			<th>Scadenza</th>
 			<th>Stato</th>
-			<th style="text-align:center;">Senior</th>
-			<th style="text-align:center;">Junior</th>
-			<th style="text-align:center;">Risorse</th>
-			<th style="width: 100px;">Rimuovi</th>
+			<th>Senior</th>
+			<th>Junior</th>
+			<th>Risorse</th>
+			<th>Modifica</th>
+			<th>Rimuovi</th>
 		</tr>
 		<!-- prova uno due-->
-
+		</thead>
 		<tbody ng-repeat="el in project track by el.id">
-			<td><a href="#/progetto/?id={{el.id}}"
+			<tr class="active">
+			<td>
+				<a href="#/progetto/?id={{el.id}}">
 				<button class="btn btn-default" style="border-width:0px;">
 					<span class="glyphicon glyphicon-th-list"></span>
 				</button>
-			</a>
-		</td>
+				</a>
+			</td>
 			<td>{{ el.name_project }}</td>
 			<td>{{ el.start_project }}</td>
 			<td>{{ el.deadline }}</td>
 			<td>{{ el.status}}</td>
 			<td style="text-align:center;">{{ el.nsenior}}</td>
 			<td style="text-align:center;">{{ el.njunior }}</td>
-			<td>
-				<center>
+			<td align="center">
 					<a class="btn btn-link" ng-init="toggle[$index] = false" ng-click="toggle[$index] = !toggle[$index]">
 						<span class="glyphicon glyphicon-user" ng-if="!toggle[$index]"></span>
 						<span class="glyphicon glyphicon-minus-sign" ng-if="toggle[$index]"></span>
 					</a>
-					<center>
-					</td>
-					<td>
-						<div class="btn-group">
-							<button class="btn btn-warning" ng-click="editData(el)"><span class="glyphicon glyphicon-pencil"></span></button>
-							<button class="btn btn-danger" ng-click="removeDataP(el.id)"><span class="glyphicon glyphicon-remove"></span></button>
-						</div>
-					</td>
-					<tr ng-if="toggle[$index]">
-						<td colspan="9">
+			</td>
+				<td>
+					<button class="btn btn-warning" ng-click="editData(el)"><span class="glyphicon glyphicon-pencil"></span></button>
+				</td>
+				<td>
+					<button class="btn btn-danger" ng-click="removeDataP(el.id)"><span class="glyphicon glyphicon-remove"></span></button>
+			</td>
+					<tr ng-if="toggle[$index]" class="active">
+						<td colspan="8">
 							<!-- risorse a scomparsa -->
 						<div class="modal-body">
 							<form class="form-horizontal" id="blogForm1">
 
-								<table class="table table-striped">
-									<tr>
+								<table class="table table-hover">
+									<thead>
+									<tr class="active">
 										<!--vuoto -->
 										<th></th>
 										<th>Cognome</th>
@@ -130,7 +133,9 @@
 										<th >Data Assunzione</th>
 										<th>Assegnazione</th>
 									</tr>
-									<tr ng-repeat="el1 in resource | orderBy:'type'">
+									</thead>
+									<tbody ng-repeat="el1 in resources | orderBy:'type'">
+										<tr class="active">
 										<td></td>
 										<td>{{ el1.surname }}</td>
 										<td>{{ el1.name }}</td>
@@ -145,17 +150,22 @@
 										<!--		ICONE PER L'ASSEGNAZIONE |	Più			glyphicon glyphicon-plus-sign |	Meno		glyphicon glyphicon-minus-sign		-->
 										<td>
 											<button name="Aggiungi" type="button" ng-click="assignR(el1.id,el.id)" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off">
-												<span class="glyphicon glyphicon-plus-sign"></span></button>
+												<span class="glyphicon glyphicon-plus-sign"></span>
+											</button>
 											</td>
 										</tr>
-									</div>
-								</form>
-
-
+									</tr>
+								</tr>
+							</tbody>
+							</table>
+							</form>
+							</div>
+							</td>
 							</tr>
+							</tbody>
 						</table>
-					</tbody>
-				</td>
+
+
 
 
 				<!-- Button trigger modal -->
@@ -164,7 +174,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="edit-modalLabel">Edit Progetto ( {{ editBlogData.name_project }} )</h4>
+								<h4 class="modal-name_project" id="edit-modalLabel">Modifica Progetto {{ editBlogData.name_project }}</h4>
 							</div>
 							<div class="modal-body">
 								<form class="form-horizontal" id="blogForm">
@@ -214,12 +224,11 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-								<button type="button" class="btn btn-primary" ng-click="updateDataP(editBlogData)">Salva</button>
+								<button type="button" class="btn btn-primary" ng-click="updateDataP(editBlogData)">Salva modifiche</button>
 							</div>
 						</div>
 					</div>
 				</div>
-
-
+</div>
 
 				<!-- - - - - - - - - - - finestra assegnazione risorsa a progetto - - - - - - - - - - - - -->

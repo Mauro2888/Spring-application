@@ -1,12 +1,15 @@
 <div class="container">
 	<div class="alert alert-success" role="alert" ng-if="notification.success">{{ notification.message }}</div>
 	<div class="alert alert-error" role="alert" ng-if="notification.error">{{ notification.message }}</div>
-	<h2>Progetti > Nome Progetto</h2>
-  <table class="table table-striped">
-    <tr>
+	<h2 style="background-color:#FEFEFE;">Progetti > Nome Progetto</h2>
+  <table class="table table-hover">
+		<thead>
+    <tr class="active">
       <th>Inizio</th><th>Scadenza</th> <th>Stato</th> <th style="text-align:center;">Senior</th><th style="text-align:center;">Junior</th><th style="width: 100px;">Modifica</th>
     </tr>
+		</thead>
     <tbody>
+			<tr class="active">
 			<!--<script> $id={{ el.id }}</script>-->
       <td>{{ project.start_project }}</td><td>{{ project.deadline }}</td><td>{{ project.status}}</td><td style="text-align:center;">{{ project.nsenior}}</td><td style="text-align:center;">{{ project.njunior }}</td>
       <td>
@@ -14,21 +17,23 @@
           <button class="btn btn-warning" ng-click="editData(project)"><span class="glyphicon glyphicon-pencil"></span></button>
         </div>
         </td>
-              </table>
-            </tbody>
-          </td>
-  </table>
+			</tr>
+    </tbody>
+		</table>
 
 <div class="row">
 	<div class="table-responsive col-md-6">
-		<h3>Risorse Assegnate</h3>
-	<table class="table table-striped" width="50%">
-	 	<tr>
+		<h3 style="background-color:#F3F3F3;" align="center">Risorse Assegnate</h3>
+	<table class="table table-hover" width="50%">
+		<thead>
+		<tr class="active">
 	 		<th>Cognome</th>
 			<th>Nome</th>
 			<th colspan="2">Tipo</th>
 	 	</tr>
-	 	<tr ng-repeat="el1 in resource " ng-show="el1.assigned != 0">
+	</thead>
+	<tbody>
+	 	<tr ng-repeat="el1 in resources " ng-show="el1.assigned != 0" class="active">
 	 		<td>{{ el1.surname }}</td>
 			<td>{{ el1.name }}</td>
 			<td>{{ el1.type}}</td>
@@ -39,26 +44,31 @@
 	 			</div>
 	 		</td>
 	 	</tr>
+	</tbody>
 	</table>
 </div>
 
 <div class="table-responsive col-md-6">
-	<h3>Assegna Risorse</h3>
-	<table class="table table-striped">
-	 	<tr>
+	<h3 style="background-color:#F3F3F3;" align="center">Assegna Risorse</h3>
+	<table class="table table-hover">
+		<thead>
+	 	<tr class="active">
 	 		<th>Cognome</th>
 			<th>Nome</th>
 			<th colspan="2">Tipo</th>
 	 	</tr>
-	 	<tr ng-repeat="el in resource " ng-show="el.assigned == 0">
+	</thead>
+	<tbody>
+	 	<tr ng-repeat="el in resources" ng-show="el.assigned == 0" class="active">
 	 		<td>{{ el.surname }}</td><td>{{ el.name }}</td><td>{{ el.type}}</td>
 	 		<td>
 	 			<div class="btn-group">
 					<button class="btn btn-success btn-circle" style=" width:21px;height:21px;padding: 0;border-radius:10px;"
-					ng-click="assegnaR(el,$id)"><span class="glyphicon glyphicon-plus"></span></button>
+					ng-click="assegnaR(el,project.id)"><span class="glyphicon glyphicon-plus"></span></button>
 	 			</div>
 	 		</td>
 	 	</tr>
+	</tbody>
 	</table>
 </div>
 </div>
@@ -71,7 +81,7 @@
 				<div class="modal-content">
 						<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="edit-modalLabel">Edit Progetto ( {{ editBlogData.name_project }} )</h4>
+								<h4 class="modal-title" id="edit-modalLabel">Modifica Progetto {{ editBlogData.name_project }}</h4>
 						</div>
 						<div class="modal-body">
 				<form class="form-horizontal" id="blogForm">
@@ -121,7 +131,7 @@
 						</div>
 						<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-								<button type="button" class="btn btn-primary" ng-click="updateDataP(editBlogData)">Salva</button>
+								<button type="button" class="btn btn-primary" ng-click="updateDataP(editBlogData)">Salva modifiche</button>
 						</div>
 				</div>
 		</div>

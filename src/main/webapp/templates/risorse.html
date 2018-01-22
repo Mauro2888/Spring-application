@@ -6,7 +6,7 @@
 	<button class="btn btn-primary" ng-click="frmToggle()">Aggiungi Risorsa</button>
 	<br>
 
-	<form class="form-horizontal" id="blogForm" ng-submit="pushDataR(frm)" hidden>
+	<form class="form-horizontal" id="blogForm" ng-submit="pushDataR(frm)" hidden style="background-color:#F3F3F3;">
 		<div class="form-group">
 			<label for="surname" class="col-sm-2 control-label">Cognome</label>
 			<div class="col-sm-10">
@@ -24,8 +24,8 @@
 			<label for="type" class="col-sm-2 control-label">Tipologia</label>
 			<div class="col-sm-10">
         <select class="form-control" ng-model="frm.type" rows="8" class="form-control">
-					<option value="junior">Junior</option>
-					<option value="senior">Senior</option>
+					<option value="Junior">Junior</option>
+					<option value="Senior">Senior</option>
 
 				</select>
 			</div>
@@ -56,19 +56,27 @@
 
 
 
-	<table class="table table-striped">
-	 	<tr>
-	 		<th>Cognome</th><th>Nome</th><th>Tipo</th> <th>Data Assunzione</th><th style="width: 100px;">Rimuovi</th>
+	<table class="table table-hover">
+		<thead>
+	 	<tr class="active">
+	 		<th>Cognome</th><th>Nome</th><th>Tipo</th> <th>Data Assunzione</th><th style="width: 100px;">Modifica</th><th style="width: 100px;">Rimuovi</th>
 	 	</tr>
-	 	<tr ng-repeat="el in resource | filter: query track by $index">
+	</thead>
+	<tbody>
+	 	<tr ng-repeat="el in resources | filter: query track by $index" class="active">
 	 		<td>{{ el.surname }}</td><td>{{ el.name }}</td><td>{{ el.type}}</td><td>{{ el.hire}}</td>
 	 		<td>
 	 			<div class="btn-group">
 	 				<button class="btn btn-warning" ng-click="editData(el)"><span class="glyphicon glyphicon-pencil"></span></button>
+				</div>
+			</td>
+			<td>
+					<div class="btn-group">
 	 				<button class="btn btn-danger" ng-click="removeDataR(el.id)"><span class="glyphicon glyphicon-remove"></span></button>
 	 			</div>
 	 		</td>
 	 	</tr>
+	</tbody>
 	</table>
 	<!-- Button trigger modal -->
 
@@ -77,7 +85,7 @@
 	        <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                <h4 class="modal-title" id="edit-modalLabel">Edit Blog ( {{ editBlogData.surname  }} {{ editBlogData.name  }} )</h4>
+	                <h4 class="modal-title" id="edit-modalLabel">Modifica Risorsa {{ editBlogData.surname  }} {{ editBlogData.name  }}</h4>
 	            </div>
 	            <div class="modal-body">
 	             	<form class="form-horizontal" id="blogForm">
@@ -100,8 +108,8 @@
               <label for="title" class="col-sm-2 control-label">Tipologia</label>
               <div class="col-sm-10">
                   <select class="form-control" ng-model="editBlogData.type" rows="8" class="form-control">
-                    <option value="junior">Junior</option>
-                    <option value="senior">Senior</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
 
                   </select>
                 </div>
@@ -122,7 +130,7 @@
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-	                <button type="button" class="btn btn-primary" ng-click="updateDataR(editBlogData)">Salva</button>
+	                <button type="button" class="btn btn-primary" ng-click="updateDataR(editBlogData)">Salva modifiche</button>
 	            </div>
 	        </div>
 	    </div>
