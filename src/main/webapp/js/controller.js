@@ -15,13 +15,13 @@ angular.module('controller', [])
         .error(function(err) {
             $log.error(err);
         })
-        $http.get('./js/popDataFR.php')
-            .success(function(data) {
-                $scope.resource = data;
-            })
-            .error(function(err) {
-                $log.error(err);
-            })
+    $http.get('./js/popDataFR.php')
+        .success(function(data) {
+            $scope.resources = data;
+        })
+        .error(function(err) {
+            $log.error(err);
+        })
 
     $scope.pushDataP = function($params) {
         $http.post('/rest/resources/load/project', { 'name_project': $params.name_project, 'start_project': $params.start_project,
@@ -32,7 +32,7 @@ angular.module('controller', [])
                 $timeout(function() {
                     $scope.notification = {};
                 }, 3000);
-                $scope.blogs = data;
+                $scope.project = data;
                 $scope.frm = {};
                 $('#blogForm').slideToggle();
             })
@@ -50,8 +50,6 @@ angular.module('controller', [])
         $('#edit-modal').modal('show');
     }
 
-
-
     $scope.updateDataP = function($params) {
         $('#edit-modal').modal('hide');
         $http.put('/rest/resources/update/project/'+$params.id, {'id': $params.id, 'name_project': $params.name_project, 'start_project': $params.start_project,
@@ -62,7 +60,7 @@ angular.module('controller', [])
                 $timeout(function() {
                     $scope.notification = {};
                 }, 3000);
-                $scope.blogs = data;
+                $scope.project = data;
                 $scope.frm = $scope.editBlogData = {};
             })
             .error(function(err) {
@@ -77,7 +75,7 @@ angular.module('controller', [])
 
     $http.get('/rest/resources/show')
         .success(function(data) {
-            $scope.resource = data;
+            $scope.resources = data;
         })
         .error(function(err) {
             $log.error(err);
@@ -95,9 +93,11 @@ angular.module('controller', [])
                 $scope.notification.message = "Assegnazione effettuata!";
                 $timeout(function() {
                     $scope.notification = {};
-                }, 3000);
-                $scope.blogs = data;
+                }, 2000);
+                $scope.project = data;
                 $scope.frm = {};
+                $timeout(function(){
+                  location.reload()}, 1000);
                 //$('#blogForm1').slideToggle();
             })
             .error(function(err) {
@@ -119,7 +119,9 @@ angular.module('controller', [])
                     $timeout(function() {
                         $scope.notification = {};
                     }, 3000);
-                    $scope.blogs = data;
+                    $scope.project = data;
+                    $timeout(function(){
+                      location.reload()}, 1000);
                 })
                 .error(function(err) {
                     $scope.notification.error = true;
@@ -151,7 +153,7 @@ angular.module('controller', [])
 
     $http.get('/rest/resources/show')
         .success(function(data) {
-            $scope.resource = data;
+            $scope.resources = data;
         })
         .error(function(err) {
             $log.error(err);
@@ -166,9 +168,11 @@ angular.module('controller', [])
                 $timeout(function() {
                     $scope.notification = {};
                 }, 3000);
-                $scope.blogs = data;
+                $scope.resources = data;
                 $scope.frm = {};
                 $('#blogForm').slideToggle();
+                $timeout(function(){
+                  location.reload()}, 1000);
             })
             .error(function(err) {
                 $scope.notification.error = true;
@@ -200,7 +204,7 @@ angular.module('controller', [])
                 $timeout(function() {
                     $scope.notification = {};
                 }, 3000);
-                $scope.blogs = data;
+                $scope.resources = data;
                 $scope.frm = $scope.uppdateDataR = {};
             })
             .error(function(err) {
@@ -222,8 +226,10 @@ angular.module('controller', [])
                     $scope.notification.message = "Risorsa eliminata!";
                     $timeout(function() {
                         $scope.notification = {};
-                    }, 3000);
-                    $scope.blogs = data;
+                    }, 2000);
+                    $scope.resources = data;
+                    $timeout(function(){
+                      location.reload()}, 1000);
                 })
                 .error(function(err) {
                     $scope.notification.error = true;
@@ -265,11 +271,12 @@ angular.module('controller', [])
 
         $http.get('/rest/resources/show')
               .success(function(data) {
-                  $scope.resource = data;
+                  $scope.resources = data;
               })
               .error(function(err) {
                   $log.error(err);
               })
+
     $scope.updateDataP = function($params) {
         $('#edit-modal').modal('hide');
         $http.put('/rest/resources/update/project/'+$params.id, {'id': $params.id, 'name_project': $params.name_project, 'start_project': $params.start_project,
@@ -280,7 +287,7 @@ angular.module('controller', [])
                 $timeout(function() {
                     $scope.notification = {};
                 }, 3000);
-                $scope.blogs = data;
+                $scope.project = data;
                 $scope.frm = $scope.editBlogData = {};
             })
             .error(function(err) {
@@ -291,7 +298,8 @@ angular.module('controller', [])
                 }, 3000);
                 $log.error(err);
             })
-    }
+          }
+
         $scope.editData = function($blog) {
             $scope.editBlogData = $blog;
             $('#edit-modal').modal('show');
@@ -307,9 +315,11 @@ angular.module('controller', [])
                     $scope.notification.message = "Risorsa modificata!";
                     $timeout(function() {
                         $scope.notification = {};
-                    }, 3000);
-                    $scope.blogs = data;
+                    }, 2000);
+                    $scope.resources = data;
                     $scope.frm = $scope.uppdateDataR = {};
+                    $timeout(function(){
+                      location.reload()}, 1000);
                 })
                 .error(function(err) {
                     $scope.notification.error = true;
@@ -330,9 +340,11 @@ angular.module('controller', [])
                     $scope.notification.message = "Risorsa modificata!";
                     $timeout(function() {
                         $scope.notification = {};
-                    }, 3000);
-                    $scope.blogs = data;
+                    }, 2000);
+                    $scope.resources = data;
                     $scope.frm = $scope.uppdateDataR = {};
+                    $timeout(function(){
+                      location.reload()}, 1000);
                 })
                 .error(function(err) {
                     $scope.notification.error = true;

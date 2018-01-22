@@ -2,7 +2,7 @@
 	define("__HOST__", "localhost");
 	define("__USER__", "root");
 	define("__PASS__", "root");
-	define("__BASE__", "resources");
+	define("__BASE__", "risorse");
 
 	class DB {
 		private $con = false;
@@ -41,7 +41,7 @@
 		}
 
 		public function qryPopR() {
-			$sql = "SELECT * FROM `resource` ORDER BY `id` DESC";
+			$sql = "SELECT * FROM `resources` ORDER BY `id` DESC";
 			$qry = $this->con->query($sql);
 			if($qry->num_rows > 0) {
 				while($row = $qry->fetch_object()) {
@@ -99,7 +99,7 @@
 			return $this->data;
 		}
 		public function qryPopFR() {
-			$sql = "SELECT * FROM `resource` WHERE `assigned`= 0";
+			$sql = "SELECT * FROM `resources` WHERE `assigned`= 0";
 			$qry = $this->con->query($sql);
 			if($qry->num_rows > 0) {
 				while($row = $qry->fetch_object()) {
