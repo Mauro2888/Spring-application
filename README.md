@@ -1,2 +1,2 @@
 # Springboot_WebApp
-Web Application with Rest Service for GET and POST to MySQL database 
+Sprint boot basic Application with Rest service builded with JPA,MySql in MVC pattern
